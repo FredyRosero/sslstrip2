@@ -51,7 +51,7 @@ class CookieCleaner:
     getInstance = staticmethod(getInstance)
 
     def __init__(self):
-        self.cleanedCookies = set();
+        self.cleanedCookies = set()
         self.enabled        = False
 
     def setEnabled(self, enabled):

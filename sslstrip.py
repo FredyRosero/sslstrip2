@@ -2,7 +2,7 @@
 
 """sslstrip is a MITM tool that implements Moxie Marlinspike's SSL stripping attacks."""
  
-__author__ = "Moxie Marlinspike && Version + by Leonardo Nve"
+__author__ = "Moxie Marlinspike && Version + by Leonardo Nve && updated by Samega 7Cattac"
 __email__  = "moxie@thoughtcrime.org && leonardo.nve@gmail.com"
 __license__= """
 Copyright (c) 2004-2009 Moxie Marlinspike <moxie@thoughtcrime.org>
@@ -24,8 +24,8 @@ USA
 
 """
 
-from twisted.web import http
-from twisted.internet import reactor
+from twisted.web import server, resource
+from twisted.internet import reactor, endpoints
 
 from sslstrip.StrippingProxy import StrippingProxy
 from sslstrip.URLMonitor import URLMonitor
@@ -36,19 +36,20 @@ import sys, getopt, logging, traceback, string, os
 gVersion = "0.9 +"
 
 def usage():
-    print "\nsslstrip " + gVersion + " by Moxie Marlinspike"
-    print "Version + by Leonardo Nve"
-    print "Usage: sslstrip <options>\n"
-    print "Options:"
-    print "-w <filename>, --write=<filename> Specify file to log to (optional)."
-    print "-p , --post                       Log only SSL POSTs. (default)"
-    print "-s , --ssl                        Log all SSL traffic to and from server."
-    print "-a , --all                        Log all SSL and HTTP traffic to and from server."
-    print "-l <port>, --listen=<port>        Port to listen on (default 10000)."
-    print "-f , --favicon                    Substitute a lock favicon on secure requests."
-    print "-k , --killsessions               Kill sessions in progress."
-    print "-h                                Print this help message."
-    print ""
+    print("\nsslstrip " + gVersion + " by Moxie Marlinspike")
+    print("Version + by Leonardo Nve")
+    print("Updated by Samega 7Cattac")
+    print("Usage: sslstrip <options>\n")
+    print("Options:")
+    print("-w <filename>, --write=<filename> Specify file to log to (optional).")
+    print("-p , --post                       Log only SSL POSTs. (default)")
+    print("-s , --ssl                        Log all SSL traffic to and from server.")
+    print("-a , --all                        Log all SSL and HTTP traffic to and from server.")
+    print("-l <port>, --listen=<port>        Port to listen on (default 10000).")
+    print("-f , --favicon                    Substitute a lock favicon on secure requests.")
+    print("-k , --killsessions               Kill sessions in progress.")
+    print("-h                                Print this help message.")
+    print("")
 
 def parseOptions(argv):
     logFile      = 'sslstrip.log'
@@ -99,10 +100,12 @@ def main(argv):
     strippingFactory              = http.HTTPFactory(timeout=10)
     strippingFactory.protocol     = StrippingProxy
 
-    reactor.listenTCP(int(listenPort), strippingFactory)
-                
-    print "\nsslstrip " + gVersion + " by Moxie Marlinspike running..."
-    print "+ POC by Leonardo Nve"
+    endpoint = endpoints.TCP4ServerEndpoint(reactor, int(listenPort))
+    endpoint.listen(strippingFactory)
+    
+    print("\nsslstrip " + gVersion + " by Moxie Marlinspike running...")
+    print("+ POC by Leonardo Nve")
+    print("+ Updated by Samega 7Cattac")
 
     reactor.run()
 

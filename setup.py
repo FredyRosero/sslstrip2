@@ -17,7 +17,7 @@ setup  (name        = 'sslstrip',
         data_files = [('share/sslstrip', ['README', 'COPYING', 'lock.ico'])],
        )
 
-print "Cleaning up..."
+print("Cleaning up...")
 try:
     removeall("build/")
     os.rmdir("build/")
@@ -51,5 +51,5 @@ def removeall(path):
 def rmgeneric(path, __func__):
 	try:
 		__func__(path)
-	except OSError, (errno, strerror):
+	except OSError:
 		pass

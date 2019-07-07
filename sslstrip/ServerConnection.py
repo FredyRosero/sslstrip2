@@ -150,7 +150,7 @@ class ServerConnection(HTTPClient):
         	dregex = re.compile("(%s)" % "|".join(map(re.escape, patchDict.keys())))
         	data = dregex.sub(lambda x: str(patchDict[x.string[x.start() :x.end()]]), data)
 		
-		iterator = re.finditer(ServerConnection.urlExpression, data)       
+        iterator = re.finditer(ServerConnection.urlExpression, data)       
         for match in iterator:
             url = match.group()
 			

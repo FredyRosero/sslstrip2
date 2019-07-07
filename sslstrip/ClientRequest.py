@@ -102,9 +102,9 @@ class ClientRequest(Request):
         return "lock.ico"        
 
     def save_req(self,lfile,str):
-	f = open(lfile,"a")
-	f.write(str)
-	f.close()
+        f = open(lfile,"a")
+        f.write(str)
+        f.close()
 
     def handleHostResolvedSuccess(self, address):
         headers       = self.cleanHeaders()
@@ -164,7 +164,7 @@ class ClientRequest(Request):
             return reactor.resolve(host)
 
     def process(self):
-    	host     = self.urlMonitor.URLgetRealHost("%s"%self.getHeader('host'))               
+    	host     = self.urlMonitor.URLgetRealHost("%s"%self.getHeader('host'))
         logging.debug("Resolving host: %s" % host)
         deferred = self.resolveHost(host)
 
