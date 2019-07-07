@@ -1,3 +1,5 @@
+This repo is a port to python 3 and newer from the original made with python 2.3.
+
 SSLStrip+
 =========
 
