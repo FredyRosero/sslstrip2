@@ -100,8 +100,7 @@ def main(argv):
     strippingFactory              = http.HTTPFactory(timeout=10)
     strippingFactory.protocol     = StrippingProxy
 
-    endpoint = endpoints.TCP4ServerEndpoint(reactor, int(listenPort))
-    endpoint.listen(strippingFactory)
+    endpoint = endpoints.TCP4ServerEndpoint(reactor, int(listenPort)).listen(strippingFactory)
     
     print("\nsslstrip " + gVersion + " by Moxie Marlinspike running...")
     print("+ POC by Leonardo Nve")

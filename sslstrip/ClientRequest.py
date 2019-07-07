@@ -163,13 +163,12 @@ class ClientRequest(Request):
             logging.debug("Host not cached.")
             return reactor.resolve(host)
 
-    def process(self):
-    	host     = self.urlMonitor.URLgetRealHost("%s"%self.getHeader('host'))
-        logging.debug("Resolving host: %s" % host)
-        deferred = self.resolveHost(host)
-
-        deferred.addCallback(self.handleHostResolvedSuccess)
-        deferred.addErrback(self.handleHostResolvedError)
+        def process(self):
+            host     = self.urlMonitor.URLgetRealHost("%s"%self.getHeader('host'))
+            logging.debug("Resolving host: %s" % host)
+            deferred = self.resolveHost(host)
+            deferred.addCallback(self.handleHostResolvedSuccess)
+            deferred.addErrback(self.handleHostResolvedError)
         
     def proxyViaHTTP(self, host, method, path, postData, headers):
         connectionFactory          = ServerConnectionFactory(method, path, postData, headers, self)
@@ -178,11 +177,11 @@ class ClientRequest(Request):
         self.reactor.connectTCP(host, 80, connectionFactory)
 
     def proxyViaSSL(self, host, method, path, postData, headers, port):
-		self.save_req("debug_ssl.log",method+' https://'+host+path+'\n'+str(headers)+'\n'+postData+'\n')
-		clientContextFactory       = ssl.ClientContextFactory()
-		connectionFactory          = ServerConnectionFactory(method, path, postData, headers, self)
-		connectionFactory.protocol = SSLServerConnection
-		self.reactor.connectSSL(host, port, connectionFactory, clientContextFactory)
+        self.save_req("debug_ssl.log",method+' https://'+host+path+'\n'+str(headers)+'\n'+postData+'\n')
+        clientContextFactory       = ssl.ClientContextFactory()
+        connectionFactory          = ServerConnectionFactory(method, path, postData, headers, self)
+        connectionFactory.protocol = SSLServerConnection
+        self.reactor.connectSSL(host, port, connectionFactory, clientContextFactory)
 
     def sendExpiredCookies(self, host, path, expireHeaders):
         self.setResponseCode(302, "Moved")
