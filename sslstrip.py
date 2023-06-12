@@ -24,7 +24,7 @@ USA
 
 """
 
-from twisted.web import server, resource
+from twisted.web import server, resource, http
 from twisted.internet import reactor, endpoints
 
 from sslstrip.StrippingProxy import StrippingProxy
